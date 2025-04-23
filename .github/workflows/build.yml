@@ -24,10 +24,11 @@ jobs:
           mv $HOME/android-sdk/cmdline-tools/* $HOME/android-sdk/cmdline-tools/latest/
           export ANDROID_HOME=$HOME/android-sdk
           export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
-          sdkmanager --install "build-tools;34.0.0" "platform-tools" "platforms;android-33"
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "build-tools;34.0.0" "platform-tools" "platforms;android-33"
 
       - name: Accept Android SDK Licenses
-        run: yes | sdkmanager --licenses
+        run: |
+          while yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses; do sleep 1; done || true
 
       - name: Build APK
         run: buildozer -v android debug --arch=arm64-v8a
