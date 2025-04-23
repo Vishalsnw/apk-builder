@@ -18,7 +18,7 @@ jobs:
         run: |
           mkdir -p $HOME/android-sdk
           cd $HOME/android-sdk
-          wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip -O sdk-tools.zip
+          wget https://dl.google.com/android/repository/commandlinetools-linux-11076709_latest.zip -O sdk-tools.zip
           unzip sdk-tools.zip -d $HOME/android-sdk/cmdline-tools/
           rm sdk-tools.zip
           mv $HOME/android-sdk/cmdline-tools/* $HOME/android-sdk/cmdline-tools/latest/
@@ -27,8 +27,13 @@ jobs:
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "build-tools;34.0.0"
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "platform-tools"
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "platforms;android-33"
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "cmdline-tools;latest"
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "tools"
+          chmod +x $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager
+
+      - name: Fix SDKManager Class Path
+        run: |
+          export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
+          echo "JAVA_HOME set to: $JAVA_HOME"
+          java -classpath $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager com.android.sdklib.tool.sdkmanager.SdkManagerCli --version
 
       - name: Install AIDL (Fix Missing Issue)
         run: |
@@ -40,13 +45,17 @@ jobs:
       - name: Skip License Step (Fix Loop Issue)
         run: echo "Skipping license acceptance since it's already done!"
 
-      - name: Verify AIDL Installation
+      - name: Verify SDKManager & AIDL Installation
         run: |
+          if ! $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --version; then
+            echo "Error: SDKManager still not working!"
+            exit 1
+          fi
           if ! command -v aidl &> /dev/null; then
             echo "Error: AIDL still not found!"
             exit 1
           fi
-          echo "AIDL Verified!"
+          echo "SDKManager and AIDL Verified!"
 
       - name: Build APK
         run: buildozer -v android debug --arch=arm64-v8a
