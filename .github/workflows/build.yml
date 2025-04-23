@@ -17,18 +17,25 @@ jobs:
       - name: Remove Old SDK Tools (Fix Extraction Issue)
         run: |
           rm -rf $HOME/android-sdk/cmdline-tools
-          mkdir -p $HOME/android-sdk
+          mkdir -p $HOME/android-sdk/cmdline-tools/latest
           cd $HOME/android-sdk
           wget https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip -O sdk-tools.zip
-          unzip sdk-tools.zip -d $HOME/android-sdk/cmdline-tools/
+          unzip sdk-tools.zip -d $HOME/android-sdk/cmdline-tools/latest/
           rm sdk-tools.zip
-          mv $HOME/android-sdk/cmdline-tools/* $HOME/android-sdk/cmdline-tools/latest/
+          chmod +x $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager
+
+      - name: Fix SDKManager Path
+        run: |
           export ANDROID_HOME=$HOME/android-sdk
           export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
+          ls -lah $ANDROID_HOME/cmdline-tools/latest/bin/
+          echo "Corrected SDKManager Path!"
+
+      - name: Install Android SDK & Build Tools
+        run: |
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "build-tools;34.0.0"
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "platform-tools"
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "platforms;android-33"
-          chmod +x $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager
 
       - name: Fix JAVA_HOME Path
         run: |
