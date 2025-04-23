@@ -27,7 +27,7 @@ jobs:
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "build-tools;34.0.0"
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "platform-tools"
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "platforms;android-33"
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "extras;google;auto"
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "cmdline-tools;latest"
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "tools"
 
       - name: Install AIDL (Fix Missing Issue)
