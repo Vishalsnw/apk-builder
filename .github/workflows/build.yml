@@ -18,7 +18,7 @@ jobs:
         run: |
           mkdir -p $HOME/android-sdk
           cd $HOME/android-sdk
-          wget https://dl.google.com/android/repository/commandlinetools-linux-11076709_latest.zip -O sdk-tools.zip
+          wget https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip -O sdk-tools.zip
           unzip sdk-tools.zip -d $HOME/android-sdk/cmdline-tools/
           rm sdk-tools.zip
           mv $HOME/android-sdk/cmdline-tools/* $HOME/android-sdk/cmdline-tools/latest/
