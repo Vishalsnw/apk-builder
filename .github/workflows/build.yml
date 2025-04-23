@@ -14,8 +14,9 @@ jobs:
           sudo apt install openjdk-11-jdk python3-venv zipalign build-essential libstdc++6
           pip install buildozer cython kivy
 
-      - name: Install Android SDK & Build Tools
+      - name: Remove Old SDK Tools (Fix Extraction Issue)
         run: |
+          rm -rf $HOME/android-sdk/cmdline-tools
           mkdir -p $HOME/android-sdk
           cd $HOME/android-sdk
           wget https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip -O sdk-tools.zip
@@ -29,11 +30,18 @@ jobs:
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "platforms;android-33"
           chmod +x $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager
 
-      - name: Fix SDKManager Class Path
+      - name: Fix JAVA_HOME Path
         run: |
-          export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
+          export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
           echo "JAVA_HOME set to: $JAVA_HOME"
-          java -classpath $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager com.android.sdklib.tool.sdkmanager.SdkManagerCli --version
+
+      - name: Verify SDKManager Installation
+        run: |
+          if ! $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --version; then
+            echo "Error: SDKManager still broken!"
+            exit 1
+          fi
+          echo "SDKManager Verified!"
 
       - name: Install AIDL (Fix Missing Issue)
         run: |
