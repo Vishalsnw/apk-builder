@@ -71,6 +71,8 @@ osx.kivy_version = 1.9.1
 
 #
 # Android specific
+android.ndk_path = $ANDROID_HOME/ndk
+android.sdk_path = $ANDROID_HOME
 #
 
 # (bool) Indicate if the application should be fullscreen or not
