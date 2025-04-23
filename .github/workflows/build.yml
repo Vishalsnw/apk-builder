@@ -21,7 +21,9 @@ jobs:
           wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip -O sdk-tools.zip
           unzip sdk-tools.zip -d $HOME/android-sdk/cmdline-tools/
           rm sdk-tools.zip
-          export PATH=$HOME/android-sdk/cmdline-tools/bin:$HOME/android-sdk/platform-tools:$PATH
+          mv $HOME/android-sdk/cmdline-tools/* $HOME/android-sdk/cmdline-tools/latest/
+          export ANDROID_HOME=$HOME/android-sdk
+          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
           sdkmanager --install "build-tools;34.0.0" "platform-tools" "platforms;android-33"
 
       - name: Accept Android SDK Licenses
