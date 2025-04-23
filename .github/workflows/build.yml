@@ -11,7 +11,7 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt update
-          sudo apt install openjdk-11-jdk python3-venv zipalign
+          sudo apt install openjdk-11-jdk python3-venv zipalign build-essential libstdc++6
           pip install buildozer cython kivy
 
       - name: Install Android SDK & Build Tools
@@ -32,12 +32,21 @@ jobs:
 
       - name: Install AIDL (Fix Missing Issue)
         run: |
+          sudo apt-get install aidl
           mkdir -p $ANDROID_HOME/build-tools/34.0.0
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "build-tools;34.0.0"
           ln -s $ANDROID_HOME/build-tools/34.0.0/aidl /usr/local/bin/aidl
+          echo "AIDL Installed Successfully!"
 
       - name: Skip License Step (Fix Loop Issue)
         run: echo "Skipping license acceptance since it's already done!"
+
+      - name: Verify AIDL Installation
+        run: |
+          if ! command -v aidl &> /dev/null; then
+            echo "Error: AIDL still not found!"
+            exit 1
+          fi
+          echo "AIDL Verified!"
 
       - name: Build APK
         run: buildozer -v android debug --arch=arm64-v8a
