@@ -24,8 +24,17 @@ jobs:
           mv $HOME/android-sdk/cmdline-tools/* $HOME/android-sdk/cmdline-tools/latest/
           export ANDROID_HOME=$HOME/android-sdk
           export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "build-tools;34.0.0" "platform-tools" "platforms;android-33"
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "system-images;android-33;google_apis;x86_64"
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "build-tools;34.0.0"
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "platform-tools"
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "platforms;android-33"
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "extras;google;auto"
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "tools"
+
+      - name: Install AIDL (Fix Missing Issue)
+        run: |
+          mkdir -p $ANDROID_HOME/build-tools/34.0.0
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "build-tools;34.0.0"
+          ln -s $ANDROID_HOME/build-tools/34.0.0/aidl /usr/local/bin/aidl
 
       - name: Skip License Step (Fix Loop Issue)
         run: echo "Skipping license acceptance since it's already done!"
