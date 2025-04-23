@@ -12,7 +12,8 @@ jobs:
         run: |
           sudo apt update
           sudo apt install openjdk-11-jdk python3-venv zipalign build-essential libstdc++6
-          pip install buildozer cython kivy
+          pip install --upgrade pip
+          pip install --upgrade buildozer cython kivy
 
       - name: Remove Old SDK Tools (Fix Extraction Issue)
         run: |
@@ -57,6 +58,11 @@ jobs:
           mkdir -p $ANDROID_HOME/build-tools/34.0.0
           ln -s $ANDROID_HOME/build-tools/34.0.0/aidl /usr/local/bin/aidl
           echo "AIDL Installed Successfully!"
+
+      - name: Fix Permissions Issue
+        run: |
+          sudo chmod -R 777 ~/.local/lib/python3.8/site-packages/
+          echo "Permissions fixed!"
 
       - name: Skip License Step (Fix Loop Issue)
         run: echo "Skipping license acceptance since it's already done!"
