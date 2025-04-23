@@ -26,7 +26,6 @@ jobs:
           export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "build-tools;34.0.0" "platform-tools" "platforms;android-33"
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "system-images;android-33;google_apis;x86_64"
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "extras;android;gapid;1"
 
       - name: Skip License Step (Fix Loop Issue)
         run: echo "Skipping license acceptance since it's already done!"
