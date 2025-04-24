@@ -1,0 +1,56 @@
+MDScreen:
+    MDBoxLayout:
+        orientation: "vertical"
+        spacing: dp(10)
+        padding: dp(20)
+
+        MDLabel:
+            text: "Kalyan Jodi Prediction"
+            halign: "center"
+            font_style: "H5"
+
+        MDTextField:
+            id: date_field
+            hint_text: "Date (dd/mm/yyyy)"
+            mode: "rectangle"
+
+        MDTextField:
+            id: market_field
+            hint_text: "Market (e.g. Kalyan)"
+            mode: "rectangle"
+
+        MDTextField:
+            id: open_field
+            hint_text: "Open"
+            mode: "rectangle"
+            input_filter: "int"
+
+        MDTextField:
+            id: jodi_field
+            hint_text: "Jodi"
+            mode: "rectangle"
+            input_filter: "int"
+
+        MDTextField:
+            id: close_field
+            hint_text: "Close"
+            mode: "rectangle"
+            input_filter: "int"
+
+        MDRaisedButton:
+            text: "Append Result"
+            on_release: app.append_to_csv()
+
+        MDRaisedButton:
+            text: "Train & Test"
+            on_release: app.train_and_test_models()
+
+        MDRaisedButton:
+            text: "Predict Next Day"
+            on_release: app.predict_next_day()
+
+        MDLabel:
+            id: output_label
+            text: ""
+            halign: "center"
+            theme_text_color: "Secondary"
