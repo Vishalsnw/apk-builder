@@ -1,4 +1,4 @@
-name: Build and Deploy APK
+name: Build APK
 
 on:
   push:
@@ -19,44 +19,33 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.10'
+          python-version: '3.9'
 
-      - name: Upgrade pip
-        run: |
-          python -m pip install --upgrade pip setuptools wheel
-
-      - name: Install Linux dependencies
+      - name: Install OS dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y \
-            python3-dev \
-            build-essential \
-            libssl-dev \
-            libffi-dev \
-            libgl1-mesa-dev \
-            zlib1g-dev \
-            libncurses5-dev \
-            libsqlite3-dev \
-            libgdbm-dev \
-            libbz2-dev \
-            libreadline-dev \
-            liblzma-dev \
-            openjdk-11-jdk \
-            unzip \
-            git \
-            curl
+            zip unzip openjdk-17-jdk python3-pip python3-setuptools \
+            python3-dev build-essential git libffi-dev libssl-dev \
+            libsqlite3-dev zlib1g-dev libncurses5-dev libncursesw5-dev \
+            libreadline-dev libgdbm-dev libbz2-dev liblzma-dev \
+            libsqlite3-dev libjpeg-dev libfreetype6-dev
 
-      - name: Install Buildozer and Cython
+      - name: Install buildozer and Cython
         run: |
-          pip install cython
+          pip install --upgrade pip setuptools wheel Cython
           pip install buildozer
 
-      - name: Install Android SDK + Accept licenses
+      - name: Set environment for buildozer
         run: |
-          yes | sdkmanager --licenses || true
-        env:
-          ANDROID_SDK_ROOT: /usr/lib/android-sdk
+          echo "sdk.dir=$HOME/.buildozer/android/platform/android-sdk" >> local.properties
 
       - name: Build APK
         run: |
           buildozer android debug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: KalyanApp-APK
+          path: bin/*.apk
