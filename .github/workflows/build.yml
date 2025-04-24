@@ -3,10 +3,10 @@ name: Build and Deploy APK
 on:
   push:
     branches:
-      - main   # Change this to your default branch, e.g., "master" or "main"
+      - main  # Trigger when changes are pushed to the main branch
   pull_request:
     branches:
-      - main   # Trigger on pull requests to the main branch
+      - main  # Trigger on pull requests to the main branch
 
 jobs:
   build:
@@ -18,7 +18,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'  # Use Python 3.x
+          python-version: '3.8'  # Set Python version (use Python 3.8 for better compatibility)
 
       - name: Install dependencies
         run: |
@@ -33,6 +33,17 @@ jobs:
       - name: Install Buildozer
         run: |
           pip install buildozer
+
+      - name: Install Android SDK & NDK dependencies
+        run: |
+          sudo apt-get install -y openjdk-8-jdk
+          sudo apt-get install -y unzip
+          wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip
+          unzip commandlinetools-linux-8512546_latest.zip -d $HOME/Android
+          mkdir $HOME/Android/cmdline-tools
+          mv $HOME/Android/cmdline-tools/* $HOME/Android/cmdline-tools/latest
+          echo "y" | $HOME/Android/cmdline-tools/latest/bin/sdkmanager --sdk_root=$HOME/Android --update
+          echo "y" | $HOME/Android/cmdline-tools/latest/bin/sdkmanager --sdk_root=$HOME/Android "platforms;android-29" "build-tools;29.0.3" "ndk;21.3.6528147"
 
       - name: Build APK
         run: |
