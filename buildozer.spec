@@ -1,5 +1,3 @@
-[app]
-
 # (1) App details
 title = KalyanMLApp
 package.name = kalyanml
