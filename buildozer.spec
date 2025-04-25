@@ -1,3 +1,5 @@
+[app]
+
 # (1) App details
 title = KalyanMLApp
 package.name = kalyanml
@@ -23,10 +25,10 @@ android.api = 31
 android.minapi = 21
 android.ndk_api = 21
 android.sdk = 31
-android.ndk_path = $HOME/.buildozer/android/platform/android-ndk-r25b
-android.sdk_path = $HOME/.buildozer/android/platform/android-sdk
+# Removed the SDK and NDK paths to let Buildozer auto-detect
+# android.ndk_path = $HOME/.buildozer/android/platform/android-ndk-r25b
+# android.sdk_path = $HOME/.buildozer/android/platform/android-sdk
 android.archs = arm64-v8a, armeabi-v7a
-# Tell python-for-android to skip system library checks
 android.skip_libs_check = 1
 
 # (6) Entry point
