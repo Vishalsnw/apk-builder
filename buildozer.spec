@@ -23,6 +23,7 @@ android.permissions = WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE
 android.ndk = 25b
 android.api = 31
 android.minapi = 21
+android.ndk_api = 21
 android.sdk = 31
 android.ndk_path = $HOME/.buildozer/android/platform/android-ndk-r25b
 android.sdk_path = $HOME/.buildozer/android/platform/android-sdk
