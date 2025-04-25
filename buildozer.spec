@@ -6,6 +6,7 @@ package.name = kalyanml
 package.domain = org.kalyan.ml
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,ttf,txt,md,csv,pkl,h5
+android.ndk_env_vars = CFLAGS="-I/data/data/com.termux/files/usr/include" LDFLAGS="-L/data/data/com.termux/files/usr/lib"
 
 # (2) Versioning
 version = 1.0
