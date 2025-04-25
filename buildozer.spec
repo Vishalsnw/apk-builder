@@ -28,6 +28,8 @@ android.sdk = 31
 android.ndk_path = $HOME/.buildozer/android/platform/android-ndk-r25b
 android.sdk_path = $HOME/.buildozer/android/platform/android-sdk
 android.archs = arm64-v8a, armeabi-v7a
+# Tell python-for-android to skip system library checks
+android.skip_libs_check = 1
 
 # (6) Entry point
 entrypoint = main.py
